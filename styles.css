@@ -138,5 +138,5 @@ b.light-color{ color: #444; }
 
 #main {
 	background: url("/bg.JPG");
-	background-size: cover;
+	background-size: contain;
 }
