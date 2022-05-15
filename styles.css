@@ -137,6 +137,6 @@ b.light-color{ color: #444; }
 }
 
 #main {
-	background: url("../images/bg.jpg");
+	background: url("/bg.JPG");
 	background-size: cover;
 }
