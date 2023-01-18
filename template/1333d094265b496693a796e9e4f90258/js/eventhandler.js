@@ -138,7 +138,7 @@ function addToCartSuccess (e) {
       }
 			else if(fieldType == 'dropdown' && fieldValue == "" ){
 				field.selectedIndex = 0;
-			
+
 			} else if(fieldType == "attachment"){
                 var customfieldId = field.getAttribute("data-custom-field-id");
                 var variantElement =  field.closest('[data-variant-id]')
@@ -152,21 +152,21 @@ function addToCartSuccess (e) {
                             attachmentClickLabel.innerText = i18n.get("product.custom_field.attachment.change_file");
                         }
                     }
-                
+
                     var nameContainer = $D.get('[data-zs-attachment-name-container="'+ customfieldId +'"]', variantElement);
                     if(nameContainer) {
                         var fileName = $D.get('[data-attachment-file-name]', nameContainer);
                         if(fileName) {
                             fileName.innerText = "";
                         }
-    
+
                         nameContainer.style.display = "none";
                     }
 
                 }
 
             }
-			
+
 			else {
           field.value = fieldValue;
       }
@@ -437,10 +437,10 @@ function deleteFromCartSuccess (e) {
 	}, 3000);
 	var lineItemCount = parseInt(document.querySelectorAll('[data-zs-view-cart-count]')[0].textContent);
 	var cartTableHead = document.querySelectorAll('[data-cart-table]');
-	var cartNotEmptyMessage = document.querySelectorAll('[data-cart-empty-message]');
+	var cartNotEmptyMessage = document.querySelectorAll('[data-zs-cart-empty-message]');
 	var cartEmptyShoppingButton = document.querySelectorAll('[data-cart-empty-shopping-button]');
 	var cartEmptyCheckoutButton = document.querySelectorAll('[data-cart-empty-checkout-button]');
-
+	var cartEmptyContinueLink = document.querySelectorAll('[data-zs-continue-shopping]');
 	// NON DELIVERABLE PRODUCT LIST
 
 	var commonNonDeliCont = document.querySelector('[data-zs-cart-delivery-availability-common-error-message]');
@@ -462,11 +462,12 @@ function deleteFromCartSuccess (e) {
 	}
 
 	if (lineItemCount == 0) {
-		addClass(cartTableHead[0],'theme-cart-empty')
+		addClass(cartTableHead[0],'theme-cart-empty');
 		removeClass(cartNotEmptyMessage[0],'theme-cart-error-message-not-empty');
 		addClass(cartNotEmptyMessage[0],'theme-cart-error-empty-message');
 		addClass(cartEmptyShoppingButton[0],'theme-cart-empty-shopping-button');
 		addClass(cartEmptyCheckoutButton[0],'theme-cart-empty-checkout-buton');
+		addClass(cartEmptyContinueLink[0],'theme-continue-link');
 		if(commonNonDeliCont){
 			commonNonDeliCont.style.display = 'none';
 		}
@@ -1108,7 +1109,7 @@ function uploadAttachmentCustomFieldsSuccess(e) {
     var customfieldId = attachment_element.getAttribute("data-custom-field-id");
 
     attachment_element.setAttribute("data-value", data.document_id)
-    
+
     var attachmentClickElem = $D.get('[data-zs-attachment-upload-custom-field-id="' + customfieldId+ '"]', variantElement);
     if(attachmentClickElem) {
         var attachmentClickLabel = $D.get('[data-zs-attachment-label]', attachmentClickElem);
@@ -1139,15 +1140,15 @@ function uploadAttachmentCustomFieldsSuccess(e) {
         });
 
     }
-	
-    //remove attachment error element 
+
+    //remove attachment error element
     _removeErrorElement(attachment_element)
 }
 
 function elementLoader(e) {
     var targetElement = e.detail.element;
     var displayOption = e.detail.display;
-    
+
     if(targetElement) {
         if(displayOption == "none") {
             targetElement.removeAttribute("disabled");
@@ -1162,7 +1163,7 @@ function elementLoader(e) {
 
         }
     }
-    
+
 }
 
 // Delivery location popup loader

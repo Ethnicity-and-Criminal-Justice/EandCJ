@@ -274,6 +274,33 @@ var product_option = (function () {
         });
         document.dispatchEvent(attributeSelectEvent);
 
+        var customTargetContainer = (targetContainer == -1) ? doc : targetContainer;
+        var delivery_availability_elements = $D.getAll('[data-zs-delivery-availability-variant-id]', customTargetContainer);
+        for(i=0;i<delivery_availability_elements.length;i++){
+            var delivery_availability_element = delivery_availability_elements[i];
+            if(delivery_availability_element.getAttribute("data-zs-delivery-availability-variant-id") == variantId ) {
+                var is_deliverable = delivery_availability_element.getAttribute("data-zs-delivery-availability");
+                var is_available_for_purchase = delivery_availability_element.getAttribute("data-zs-delivery-stock-availability-status");
+                if(is_deliverable == "true" && is_available_for_purchase == "true"){
+                    targetContainer.setAttribute("data-zs-deliverable","");
+                    targetContainer.removeAttribute("data-zs-not-deliverable");
+                    delivery_availability_element.setAttribute("data-zs-deliverable-message","");
+                }else if(is_deliverable == "false" || (is_deliverable == "true" && is_available_for_purchase == "false")){
+                    targetContainer.setAttribute("data-zs-not-deliverable","");
+                    targetContainer.removeAttribute("data-zs-deliverable");
+                    if(is_deliverable == "false"){
+                        delivery_availability_element.setAttribute("data-zs-not-deliverable-message","");
+                    }else{
+                        delivery_availability_element.setAttribute("data-zs-unavailable-message","");
+                    }
+                }
+            }else{
+                delivery_availability_element.removeAttribute("data-zs-not-deliverable-message");
+                delivery_availability_element.removeAttribute("data-zs-deliverable-message");
+                delivery_availability_element.removeAttribute("data-zs-unavailable-message");
+            }
+        }
+
         if (variantId == INVALID_VARIANT_ID && isBlurredOption && !backOrderAvailable) {
             // optionIds = [selectedOption.value];
             // var removedOptions = removeOtherSelectedOptions(optionIds);
@@ -328,10 +355,20 @@ var product_option = (function () {
             var holder = addToCartHolders[i];
             holder.setAttribute("data-zs-product-variant-id", variantId); // No I18N
         }
-        if((variantId != "") && window.zs_product && window.zs_product.product_id == productId) {
-            if(typeof cart != "undefined") {
-                cart.pushProductPageViewForAnalytics(variantId);
-                cart.pushViewContentEventForPixel(variantId);
+        if(window.zs_product && window.zs_product.product_id == productId) {
+            if(variantId == ""){
+                window.zs_variant = {};
+            }else{
+                for(var i=0;i<zs_product.variants.length; i++){
+                    if(variantId == zs_product.variants[i].variant_id){
+                        window.zs_variant =  zs_product.variants[i];
+                        break;
+                    }
+                }
+                if(typeof cart != "undefined") {
+                    cart.pushProductPageViewForAnalytics(variantId);
+                    cart.pushViewContentEventForPixel(variantId);
+                }
             }
         }
     }
@@ -566,6 +603,9 @@ var product_option = (function () {
         }
         var variants = element.querySelector("[data-zs-variants]") // No I18N
         if (window.location.pathname.indexOf("/products/") != 0 || variants == undefined) {
+            if(window.zs_view == 'product' && zs_product && !zs_product.has_variants){
+                window.zs_variant = zs_product.variants[0];
+            }
             return;
         }
         
