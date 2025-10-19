@@ -48,25 +48,22 @@
 }
 
 .tab-panels-wrapper {
-    position: relative;
-    min-height: 400px;
-    transition: min-height 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .tab-panel {
+    grid-column: 1;
+    grid-row: 1;
     opacity: 0;
-    display: none;
+    visibility: hidden;
     transition: opacity 0.5s ease-in-out;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
 }
 
 .tab-panel.active {
     opacity: 1;
-    display: block;
-    position: relative;
+    visibility: visible;
+    z-index: 1;
 }
 
 /* Fade animation */
