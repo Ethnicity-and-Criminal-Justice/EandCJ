@@ -7,9 +7,46 @@
     function initProjectTabs() {
         const tabButtons = document.querySelectorAll('.tab-list li[role="tab"]');
         const tabPanels = document.querySelectorAll('.tab-panel');
+        const tabWrapper = document.querySelector('.tab-panels-wrapper');
         
-        if (tabButtons.length === 0 || tabPanels.length === 0) {
+        if (tabButtons.length === 0 || tabPanels.length === 0 || !tabWrapper) {
             return;
+        }
+        
+        // Function to calculate and set the height of the tallest tab panel
+        function setWrapperHeight() {
+            let maxHeight = 0;
+            
+            // Temporarily show all panels to measure their heights
+            tabPanels.forEach(function(panel) {
+                const wasActive = panel.classList.contains('active');
+                const originalDisplay = panel.style.display;
+                const originalPosition = panel.style.position;
+                
+                // Temporarily make visible and positioned relatively to measure
+                panel.style.display = 'block';
+                panel.style.position = 'relative';
+                panel.style.opacity = '0';
+                panel.style.visibility = 'hidden';
+                
+                const height = panel.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+                
+                // Restore original state
+                if (!wasActive) {
+                    panel.style.display = originalDisplay;
+                }
+                panel.style.position = originalPosition;
+                panel.style.opacity = '';
+                panel.style.visibility = '';
+            });
+            
+            // Set the wrapper height
+            if (maxHeight > 0) {
+                tabWrapper.style.minHeight = maxHeight + 'px';
+            }
         }
         
         // Function to switch tabs with fade effect
@@ -100,6 +137,20 @@
                 }
             }
         }
+        
+        // Calculate and set wrapper height on load
+        setTimeout(function() {
+            setWrapperHeight();
+        }, 100);
+        
+        // Recalculate on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                setWrapperHeight();
+            }, 250);
+        });
     }
     
     // Initialize when DOM is ready

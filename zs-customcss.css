@@ -5,6 +5,7 @@
 /* Tabbed Interface Styles */
 .project-tabs-container {
     width: 100%;
+    padding-bottom: 10%;
 }
 
 .project-tabs-heading {
@@ -46,15 +47,26 @@
     cursor: default;
 }
 
+.tab-panels-wrapper {
+    position: relative;
+    min-height: 400px;
+    transition: min-height 0.3s ease;
+}
+
 .tab-panel {
     opacity: 0;
     display: none;
     transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 .tab-panel.active {
     opacity: 1;
     display: block;
+    position: relative;
 }
 
 /* Fade animation */
