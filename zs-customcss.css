@@ -48,19 +48,22 @@
 }
 
 .tab-panels-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
+    position: relative;
+    min-height: 400px;
 }
 
 .tab-panel {
-    grid-column: 1;
-    grid-row: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease-in-out;
 }
 
 .tab-panel.active {
+    position: relative;
     opacity: 1;
     visibility: visible;
     z-index: 1;

@@ -7,9 +7,36 @@
     function initProjectTabs() {
         const tabButtons = document.querySelectorAll('.tab-list li[role="tab"]');
         const tabPanels = document.querySelectorAll('.tab-panel');
+        const wrapper = document.querySelector('.tab-panels-wrapper');
         
-        if (tabButtons.length === 0 || tabPanels.length === 0) {
+        if (tabButtons.length === 0 || tabPanels.length === 0 || !wrapper) {
             return;
+        }
+        
+        // Calculate tallest panel height once on load
+        function setWrapperHeight() {
+            let maxHeight = 0;
+            
+            tabPanels.forEach(function(panel) {
+                // Temporarily make it visible and relatively positioned to measure
+                panel.style.position = 'relative';
+                panel.style.visibility = 'visible';
+                panel.style.opacity = '0';
+                
+                const height = panel.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+                
+                // Reset to initial state
+                panel.style.position = '';
+                panel.style.visibility = '';
+                panel.style.opacity = '';
+            });
+            
+            if (maxHeight > 0) {
+                wrapper.style.minHeight = maxHeight + 'px';
+            }
         }
         
         // Function to switch tabs with fade effect
@@ -81,6 +108,11 @@
                 }
             }
         }
+        
+        // Set wrapper height based on tallest panel (runs once on load)
+        setTimeout(function() {
+            setWrapperHeight();
+        }, 100);
     }
     
     // Initialize when DOM is ready
