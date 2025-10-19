@@ -60,6 +60,10 @@
         tabButtons.forEach(function(button) {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
+                // Don't do anything if this tab is already active
+                if (this.classList.contains('active')) {
+                    return;
+                }
                 const targetId = this.getAttribute('data-target');
                 if (targetId) {
                     switchTab(targetId);
@@ -70,6 +74,10 @@
             button.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    // Don't do anything if this tab is already active
+                    if (this.classList.contains('active')) {
+                        return;
+                    }
                     const targetId = this.getAttribute('data-target');
                     if (targetId) {
                         switchTab(targetId);
