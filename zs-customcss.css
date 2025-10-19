@@ -60,10 +60,10 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease-in-out;
+    z-index: 0;
 }
 
 .tab-panel.active {
-    position: relative;
     opacity: 1;
     visibility: visible;
     z-index: 1;
