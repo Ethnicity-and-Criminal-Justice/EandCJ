@@ -14,24 +14,34 @@
         
         // Function to switch tabs with fade effect
         function switchTab(targetId) {
-            // Hide all panels and remove active class
+            const newPanel = document.getElementById(targetId);
+            if (!newPanel) return;
+            
+            // First, fade out all panels
             tabPanels.forEach(function(panel) {
-                panel.classList.remove('active');
                 panel.style.opacity = '0';
-                panel.style.visibility = 'hidden';
                 panel.style.pointerEvents = 'none';
             });
             
-            // Show target panel and add active class
-            const newPanel = document.getElementById(targetId);
-            if (newPanel) {
+            // After fade out completes, switch active states
+            setTimeout(function() {
+                tabPanels.forEach(function(panel) {
+                    panel.classList.remove('active');
+                    panel.style.visibility = 'hidden';
+                });
+                
+                // Show target panel
                 newPanel.classList.add('active');
-                newPanel.style.opacity = '1';
                 newPanel.style.visibility = 'visible';
-                newPanel.style.pointerEvents = 'auto';
-            }
+                
+                // Small delay before fading in to ensure position is settled
+                setTimeout(function() {
+                    newPanel.style.opacity = '1';
+                    newPanel.style.pointerEvents = 'auto';
+                }, 50);
+            }, 500);
             
-            // Update tab button states
+            // Update tab button states immediately
             tabButtons.forEach(function(btn) {
                 btn.classList.remove('active');
                 btn.setAttribute('aria-selected', 'false');

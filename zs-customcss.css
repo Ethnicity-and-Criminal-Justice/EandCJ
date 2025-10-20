@@ -41,14 +41,20 @@
 }
 
 .tab-list li.active {
-    background-color: rgb(196, 156, 88);
-    color: white;
-    border: 2px solid white;
+    background-color: rgba(196, 156, 88, 0.15);
+    color: rgb(196, 156, 88);
+    border: 2px solid rgb(196, 156, 88);
     cursor: default;
 }
 
 .tab-panels-wrapper {
     position: relative;
+}
+
+/* Vertically center the objectives boxes */
+.tab-panel .zprow.zsmedium-padded-box-wrap {
+    display: flex;
+    align-items: center;
 }
 
 .tab-panel {
