@@ -17,47 +17,46 @@
         function setWrapperHeight() {
             let maxHeight = 0;
             
-            // Temporarily make all panels visible to measure heights
+            // Measure each panel (they are all in the same grid area so we can measure them even when hidden)
             tabPanels.forEach(function(panel) {
+                // Temporarily show to measure
+                const wasActive = panel.classList.contains('active');
                 panel.style.opacity = '1';
                 panel.style.pointerEvents = 'auto';
+                
+                const height = panel.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+                
+                // Restore state
+                if (!wasActive) {
+                    panel.style.opacity = '0';
+                    panel.style.pointerEvents = 'none';
+                }
             });
             
-            // Measure after a brief moment to allow rendering
-            setTimeout(function() {
-                tabPanels.forEach(function(panel) {
-                    const height = panel.offsetHeight;
-                    if (height > maxHeight) {
-                        maxHeight = height;
-                    }
-                });
-                
-                // Hide all panels except active one
-                tabPanels.forEach(function(panel) {
-                    if (!panel.classList.contains('active')) {
-                        panel.style.opacity = '0';
-                        panel.style.pointerEvents = 'none';
-                    }
-                });
-                
-                // Set wrapper height to tallest panel
-                if (maxHeight > 0) {
-                    wrapper.style.minHeight = maxHeight + 'px';
-                }
-            }, 50);
+            // Set wrapper height to tallest panel
+            if (maxHeight > 0) {
+                wrapper.style.minHeight = maxHeight + 'px';
+            }
         }
         
         // Function to switch tabs with fade effect
         function switchTab(targetId) {
-            // Remove active class from all panels
+            // Hide all panels and remove active class
             tabPanels.forEach(function(panel) {
                 panel.classList.remove('active');
+                panel.style.opacity = '0';
+                panel.style.pointerEvents = 'none';
             });
             
-            // Add active class to target panel
+            // Show target panel and add active class
             const newPanel = document.getElementById(targetId);
             if (newPanel) {
                 newPanel.classList.add('active');
+                newPanel.style.opacity = '1';
+                newPanel.style.pointerEvents = 'auto';
             }
             
             // Update tab button states
@@ -111,11 +110,21 @@
                 const firstPanel = document.getElementById(firstTargetId);
                 if (firstPanel) {
                     firstPanel.classList.add('active');
+                    firstPanel.style.opacity = '1';
+                    firstPanel.style.pointerEvents = 'auto';
                     firstButton.classList.add('active');
                     firstButton.setAttribute('aria-selected', 'true');
                 }
             }
         }
+        
+        // Hide all other panels initially
+        tabPanels.forEach(function(panel) {
+            if (!panel.classList.contains('active')) {
+                panel.style.opacity = '0';
+                panel.style.pointerEvents = 'none';
+            }
+        });
         
         // Set wrapper height based on tallest panel (runs once on load)
         setTimeout(function() {
