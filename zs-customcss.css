@@ -42,8 +42,8 @@
 
 .tab-list li.active {
     background-color: rgba(196, 156, 88, 0.15);
-    color: rgb(196, 156, 88);
-    border: 2px solid rgb(196, 156, 88);
+    color: #B42D7E;
+    border: 2px solid #B42D7E;
     cursor: default;
 }
 
@@ -52,9 +52,8 @@
 }
 
 /* Vertically center the objectives boxes */
-.tab-panel .zprow.zsmedium-padded-box-wrap {
-    display: flex;
-    align-items: center;
+.tab-panel > div[data-element-type="row"].zprow {
+    align-items: center !important;
 }
 
 .tab-panel {
