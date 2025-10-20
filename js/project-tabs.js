@@ -17,26 +17,34 @@
         function setWrapperHeight() {
             let maxHeight = 0;
             
+            // Temporarily make all panels visible to measure heights
             tabPanels.forEach(function(panel) {
-                // Temporarily make it visible and relatively positioned to measure
-                panel.style.position = 'relative';
-                panel.style.visibility = 'visible';
-                panel.style.opacity = '0';
-                
-                const height = panel.offsetHeight;
-                if (height > maxHeight) {
-                    maxHeight = height;
-                }
-                
-                // Reset to initial state
-                panel.style.position = '';
-                panel.style.visibility = '';
-                panel.style.opacity = '';
+                panel.style.opacity = '1';
+                panel.style.pointerEvents = 'auto';
             });
             
-            if (maxHeight > 0) {
-                wrapper.style.minHeight = maxHeight + 'px';
-            }
+            // Measure after a brief moment to allow rendering
+            setTimeout(function() {
+                tabPanels.forEach(function(panel) {
+                    const height = panel.offsetHeight;
+                    if (height > maxHeight) {
+                        maxHeight = height;
+                    }
+                });
+                
+                // Hide all panels except active one
+                tabPanels.forEach(function(panel) {
+                    if (!panel.classList.contains('active')) {
+                        panel.style.opacity = '0';
+                        panel.style.pointerEvents = 'none';
+                    }
+                });
+                
+                // Set wrapper height to tallest panel
+                if (maxHeight > 0) {
+                    wrapper.style.minHeight = maxHeight + 'px';
+                }
+            }, 50);
         }
         
         // Function to switch tabs with fade effect
