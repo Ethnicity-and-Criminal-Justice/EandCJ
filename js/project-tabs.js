@@ -17,23 +17,31 @@
         function setWrapperHeight() {
             let maxHeight = 0;
             
-            // Measure each panel (they are all in the same grid area so we can measure them even when hidden)
+            // Measure each panel by temporarily making them visible
             tabPanels.forEach(function(panel) {
-                // Temporarily show to measure
+                // Temporarily show to measure (but keep absolutely positioned)
                 const wasActive = panel.classList.contains('active');
+                const originalOpacity = panel.style.opacity;
+                const originalPointerEvents = panel.style.pointerEvents;
+                
                 panel.style.opacity = '1';
                 panel.style.pointerEvents = 'auto';
+                panel.style.visibility = 'visible';
                 
                 const height = panel.offsetHeight;
                 if (height > maxHeight) {
                     maxHeight = height;
                 }
                 
-                // Restore state
+                // Restore state (never touch position property!)
                 if (!wasActive) {
                     panel.style.opacity = '0';
                     panel.style.pointerEvents = 'none';
+                } else {
+                    panel.style.opacity = originalOpacity || '1';
+                    panel.style.pointerEvents = originalPointerEvents || 'auto';
                 }
+                panel.style.visibility = '';
             });
             
             // Set wrapper height to tallest panel
