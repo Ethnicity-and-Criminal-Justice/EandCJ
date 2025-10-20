@@ -49,12 +49,11 @@
 
 .tab-panels-wrapper {
     display: grid;
-    grid-template-areas: "content";
     min-height: 400px;
 }
 
 .tab-panel {
-    grid-area: content;
+    grid-area: 1 / 1 / 2 / 2;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
