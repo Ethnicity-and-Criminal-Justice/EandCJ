@@ -42,8 +42,8 @@
 
 .tab-list li.active {
     background-color: rgba(196, 156, 88, 0.15);
-    color: #B42D7E;
-    border: 2px solid #B42D7E;
+    color: #F3E5CE;
+    border: 2px solid #F3E5CE;
     cursor: default;
 }
 
