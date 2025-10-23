@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Left triangle: magenta/pink color -->
+  <polygon points="0,0 66.67,0 33.33,100 0,100" fill="rgb(180, 45, 126)"/>
+  <!-- Right triangle: gold/tan color -->
+  <polygon points="66.67,0 100,0 100,100 33.33,100" fill="rgb(196, 156, 88)"/>
+</svg>
